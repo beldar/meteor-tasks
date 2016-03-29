@@ -1,0 +1,66 @@
+<head>
+  <title>tasks</title>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Welcome to Tasks!</h1>
+    {{#if currentUser}}
+      {{> tasks}}
+    {{else}}
+      {{> loginButtons}}
+    {{/if}}
+  </div>
+</body>
+
+<template name="tasks">
+  <div class="tasks">
+    {{#each tasks}}
+      {{> task}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="task">
+  <div class="tasks__task tasks__task--{{status}}">
+    <h2>{{name}}</h2>
+    <p>
+      {{description}}
+    </p>
+    {{#if isAvailable}}
+      <button type="button" class="tasks__task__claim-button">Claim</button>
+    {{/if}}
+    {{#if assigned}}
+    <p>
+      Claimed by <strong>{{assigned.username}}</strong>
+    </p>
+    {{/if}}
+    {{#if isMine}}
+      <button type="button" class="tasks__task__release-button">Release</button>
+      <select type="button" class="tasks__task__status-select">
+        <option value="claimed" {{isSelected "claimed"}}>
+          Claimed
+        </option>
+        <option value="blocked" {{isSelected "blocked"}}>
+          Blocked
+        </option>
+        <option value="in_progress" {{isSelected "in_progress"}}>
+          In progress
+        </option>
+        <option value="finished" {{isSelected "finished"}}>
+          Finished
+        </option>
+      </select>
+    {{else}}
+    <p>
+      Status: <strong>{{status}}</strong>
+    </p>
+    {{/if}}
+    {{#if finishedAt}}
+    <p>
+      Finished at {{finishedAt}}
+    </p>
+    {{/if}}
+    <button type="button" class="debug">Debug</button>
+  </div>
+</template>
