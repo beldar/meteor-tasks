@@ -6,12 +6,55 @@
   <div class="container">
     <h1>Welcome to Tasks!</h1>
     {{#if currentUser}}
+      {{> filter}}
+      {{> add}}
       {{> tasks}}
     {{else}}
       {{> loginButtons}}
     {{/if}}
   </div>
 </body>
+
+<template name="filter">
+  Filter:
+  <select class="tasks__filter">
+    <option value="-1">
+      All
+    </option>
+    <option value="claimed">
+      Status: Claimed
+    </option>
+    <option value="blocked">
+      Status: Blocked
+    </option>
+    <option value="in_progress">
+      Status: In progress
+    </option>
+    <option value="finished">
+      Status: Finished
+    </option>
+  </select>
+
+</template>
+
+<template name="add">
+  <a class="task__add__button" href="#">+ Add</a>
+  <div class="overlay">
+    <div class="task__add">
+      <h2>Add a new task</h2>
+      <form class="task__add__form">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" /><br />
+        <label for="description">Description</label>
+        <textarea id="description" name="description"></textarea><br />
+        <label for="tags">Tags (comma separated)</label>
+        <input type="text" id="tags" name="tags" /><br />
+        <button type="submit" class="task__add__submit">Submit</button>
+        <button class="task__add__cancel">Cancel</button>
+      </form>
+    </div>
+  </div>
+</template>
 
 <template name="tasks">
   <div class="tasks">
@@ -24,43 +67,58 @@
 <template name="task">
   <div class="tasks__task tasks__task--{{status}}">
     <h2>{{name}}</h2>
+    <small>Delete</small>
     <p>
-      {{description}}
+      {{{description}}}
     </p>
-    {{#if isAvailable}}
-      <button type="button" class="tasks__task__claim-button">Claim</button>
-    {{/if}}
-    {{#if assigned}}
     <p>
-      Claimed by <strong>{{assigned.username}}</strong>
+      Tags:
+        {{#each tag in tags}}
+            <strong>{{tag}}</strong>,
+        {{/each}}
     </p>
-    {{/if}}
-    {{#if isMine}}
-      <button type="button" class="tasks__task__release-button">Release</button>
-      <select type="button" class="tasks__task__status-select">
-        <option value="claimed" {{isSelected "claimed"}}>
-          Claimed
-        </option>
-        <option value="blocked" {{isSelected "blocked"}}>
-          Blocked
-        </option>
-        <option value="in_progress" {{isSelected "in_progress"}}>
-          In progress
-        </option>
-        <option value="finished" {{isSelected "finished"}}>
-          Finished
-        </option>
-      </select>
-    {{else}}
-    <p>
-      Status: <strong>{{status}}</strong>
-    </p>
-    {{/if}}
-    {{#if finishedAt}}
-    <p>
-      Finished at {{finishedAt}}
-    </p>
-    {{/if}}
-    <button type="button" class="debug">Debug</button>
+    <div class="tasks__task__meta">
+      {{#if isAvailable}}
+        <button type="button" class="tasks__task__claim-button">Claim</button>
+      {{/if}}
+      {{#if assigned}}
+      <p>
+        Claimed by <strong>{{assigned.username}}</strong>
+      </p>
+      {{/if}}
+      {{#if isMine}}
+        <button type="button" class="tasks__task__release-button">Release</button>
+        <select class="tasks__task__status-select">
+          <option value="claimed" {{isSelected "claimed"}}>
+            Status: Claimed
+          </option>
+          <option value="blocked" {{isSelected "blocked"}}>
+            Status: Blocked
+          </option>
+          <option value="in_progress" {{isSelected "in_progress"}}>
+            Status: In progress
+          </option>
+          <option value="finished" {{isSelected "finished"}}>
+            Status: Finished
+          </option>
+        </select>
+      {{else}}
+      <p>
+        Status: <strong>{{status}}</strong>
+      </p>
+      {{/if}}
+      {{#if finishedAt}}
+      <p>
+        Finished at {{finishedAt}}
+      </p>
+      {{/if}}
+      <!-- <button type="button" class="debug">Debug</button> -->
+    </div>
   </div>
+</template>
+
+<template name="tag">
+  <li>
+    {{tag}}
+  </li>
 </template>
