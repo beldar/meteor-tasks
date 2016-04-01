@@ -6,10 +6,10 @@ Example Meteor app to handle tasks.
 
 Install meteor:
 
-  curl https://install.meteor.com/ | sh
+```curl https://install.meteor.com/ | sh```
 
 Clone the repo, and inside the folder run:
 
-  meteor
+```meteor```
 
 That's it!
