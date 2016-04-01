@@ -20,6 +20,5 @@ insecure                # Allow all DB writes from clients (for prototyping)
 accounts-ui
 accounts-password
 accounts-github
-fourseven:scss
 standard-minifier-css
 standard-minifier-js
